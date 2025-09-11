@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Leaflet Map Example - Roermond</title>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin=""/>
+    <style>
+        #map { height: 400px; width: 100%; }
+        body { margin: 0; padding: 0; }
+    </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
+<script>
+    // Roermond, Netherlands coordinates
+    var roermondCoords = [51.1942, 5.9870];
+
+    // Initialize the map centered on Roermond
+    var map = L.map('map').setView(roermondCoords, 13);
+
+    // Add OpenStreetMap tile layer with attribution
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    // Add a marker at Roermond initially
+    var marker = L.marker(roermondCoords).addTo(map);
+    marker.bindPopup(
+        "<b>Roermond</b><br>" +
+        "Lat: " + roermondCoords[0] + "<br>" +
+        "Lng: " + roermondCoords[1]
+    ).openPopup();
+
+    // De marker blijft nu altijd op de beginplek, klikken op de kaart verplaatst hem niet.
+</script>
+</body>
+</html>
