@@ -20,7 +20,7 @@
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
         crossorigin=""></script>
 <script>
-    // Roermond, Netherlands coordinates
+    // Coordinates for Roermond, Netherlands
     var roermondCoords = [51.1942, 5.9870];
 
     // Initialize the map centered on Roermond
@@ -32,7 +32,7 @@
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
 
-    // Add a marker at Roermond initially
+    // Add a marker at Roermond's coordinates
     var marker = L.marker(roermondCoords).addTo(map);
     marker.bindPopup(
         "<b>Roermond</b><br>" +
@@ -40,7 +40,8 @@
         "Lng: " + roermondCoords[1]
     ).openPopup();
 
-    // De marker blijft nu altijd op de beginplek, klikken op de kaart verplaatst hem niet.
+    // The marker always stays at the starting location.
+    // Clicking the map does not move the marker.
 </script>
 </body>
 </html>
