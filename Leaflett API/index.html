@@ -1,56 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
     <meta charset="utf-8" />
-    <title>Leaflet Map Example - Gilde Opleidingen Locations</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
-    <style>
-        #map { height: 400px; width: 100%; }
-        body { margin: 0; padding: 0; }
-        #description { font-family: Arial, sans-serif; margin: 16px 0 8px 10px; font-size: 17px; color: #222; }
-    </style>
+    <title>Gilde Opleidingen Kaart</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <style>#map{height:400px;width:100%}</style>
 </head>
 <body>
-
-<div id="description">
-    Deze kaart toont de locaties van gilde.<br>
-</div>
 <div id="map"></div>
-
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
+async function fetchLocaties(q) {
+  const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}`);
+  return await res.json();
+}
 
-    const locations = [
-      {
-        "place_id": 101517446,
-        "lat": "51.1933903",
-        "lon": "5.9882649",
-        "name": "Roermond",
-        "display_name": "Roermond, Limburg, Nederland"
-      },
-      {
-        "place_id": 101692094,
-        "lat": "51.2086698",
-        "lon": "6.0175026",
-        "name": "Roermond",
-        "display_name": "Roermond, Limburg, Nederland"
-      }
-    ];
+function zetMarkers(map, locaties) {
+  locaties.forEach(loc => L.marker([loc.lat, loc.lon]).addTo(map).bindPopup(loc.display_name));
+}
 
-    // Kaart centreren op eerste locatie
-    const map = L.map('map').setView([locations[0].lat, locations[0].lon], 12);
+async function main() {
+  const locaties = await fetchLocaties("Gilde Opleidingen");
+  const map = L.map('map').setView([51.1942, 5.9870], 12); // Roermond als startpunt
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:19}).addTo(map);
+  zetMarkers(map, locaties);
+}
 
-    // OpenStreetMap tiles toevoegen
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(map);
-
-    // Markers toevoegen
-    locations.forEach(loc => {
-      L.marker([loc.lat, loc.lon]).addTo(map)
-        .bindPopup(`<b>${loc.name}</b><br>${loc.display_name}`);
-    });
+main();
 </script>
 </body>
 </html>
